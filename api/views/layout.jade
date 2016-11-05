@@ -3,5 +3,10 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    script(src='/bower_components/socket.io-client/socket.io.js')
+    script(src='/bower_components/angular/angular.min.js')
+    script(src='/js/angular-qr/qrcode.js')
+    script(src='/js/angular-qr/angular-qr.js')
+    script(src='/js/main.js')
+  body(ng-app="ingApp", ng-controller="HomeCtrl")
     block content

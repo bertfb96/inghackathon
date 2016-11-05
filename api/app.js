@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var index = require('./routes/index');
 var payment = require('./routes/payment');
 var users = require('./routes/users');
 
@@ -21,9 +22,8 @@ mongoose.connect('mongodb://localhost/inghackathon');
 //Socket.io
 var io = require('socket.io').listen(app.listen(2020));
 io.sockets.on('connection', function (socket) {
-    socket.emit('message', { message: 'welcome to the chat' });
-    socket.on('send', function (data) {
-        console.log(data.message);
+    socket.on('message', function (data) {
+      socket.broadcast.emit('qr-created',{ d: data.reference })
     });
 });
 
@@ -40,7 +40,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
+
+app.use('/', index);
 app.use('/api/payment', payment);
 app.use('/api/user', users);
 

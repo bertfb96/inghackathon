@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var PaymentSchema   = new Schema({
-    referance: String,
+    reference: String,
     businessId: String,
     customerId: String,
     price: Number
