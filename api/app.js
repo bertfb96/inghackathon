@@ -9,6 +9,8 @@ var index = require('./routes/index');
 var payment = require('./routes/payment');
 var users = require('./routes/users');
 
+var cors = require('cors');
+
 var app = express();
 
 
