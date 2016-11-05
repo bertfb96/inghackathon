@@ -16,7 +16,7 @@ var app = express();
 
 /* MongoDB connection */
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost/inghackathon');
+mongoose.connect('mongodb://192.168.43.51/inghackathon');
 /* MongoDB connection */
 
 
