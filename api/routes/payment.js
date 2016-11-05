@@ -3,6 +3,7 @@ var router = express.Router();
 var cors = require('cors')
 
 var Payment     = require('../models/payment');
+var User     = require('../models/user');
 
 var corsOptions = {
   origin: '*',
@@ -34,20 +35,40 @@ router.get('/getAll', cors(corsOptions) , function(req,res){
     });
 });
 
-router.put('/update/:pay_id', cors(corsOptions), function(req,res){
-	Payment.findById(req.params.pay_id, function(err, bear) {
+
+router.put('/acceptPay/:customerId/:businessId/:price', cors(corsOptions), function(req,res){
+
+    // for customer
+	User.findById(req.params.customerId, function(err, user) {
         if (err)
             res.send(err);
 
-        bear.name = req.query.name;  
+        user.credit -=  parseInt(req.params.price);  
 
-        bear.save(function(err) {
+        user.save(function(err) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Pay updated!' });
+            // for business
+            User.findById(req.params.businessId, function(err, user) {
+                if (err)
+                    res.send(err);
+
+                user.credit +=  parseInt(req.params.price);  
+
+                user.save(function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({ message: 'Pay updated!' });
+                });
+            });
+
         });
     });
+
+     
+
 });
 
 

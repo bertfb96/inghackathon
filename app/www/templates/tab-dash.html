@@ -20,11 +20,14 @@
       <button class="button button-block button-positive" ng-click="addPay()">
         Tutarı Belirle
       </button>
+
+      
     </div>
 
 
     <div class="businessArea" ng-if="user.type == 0">
-      Customer
+      <h4>{{user.name}} {{user.surname}}</h4> 
+      Kredi: <b>{{user.credit}}</b>TL
 
       <div class="card">
             <div class="item">
@@ -35,13 +38,34 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card"  ng-if="payVar.status">
             <div class="item item-divider">
                 Scan Results
             </div>
+
             <div class="item item-text-wrap">
-                {{qrData}}
+              
+              <h3 class="inlineBlock">Tutar </h3>  <h2  class="inlineBlock">{{payVar.price}}</h2> TL
+                
+              <div class="margin-top-10"></div>
+              <h3>Ödemeyi Onaylıyor musunuz?</h3>
+              <div class="align-center margin-top-10">
+                <button class="button button-assertive" style="width:45%">
+                    Reddet
+                  </button>
+                  <button class="button button-balanced" style="width:45%" ng-click="acceptPay()">
+                    Onayla
+                  </button>
+              </div>
             </div>
+            
+            <!-- 
+            <div class="item item-text-wrap">
+              <h3 style="color:red" ng-if="!payVar.yeterli">Bakiye yetersiz!</h3>
+            </div>
+          -->
+
+
         </div>
     </div>
 

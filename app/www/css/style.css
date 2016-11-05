@@ -9,3 +9,7 @@
 .margin-bottom-10{
 	margin-bottom:10px;
 }
+
+.inlineBlock{
+	display: inline-block
+}

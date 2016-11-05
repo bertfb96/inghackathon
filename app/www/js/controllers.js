@@ -4,8 +4,10 @@ angular.module('starter.controllers', [])
 
     /*Read qr code*/
     $scope.qrData = {};
+    $scope.payVar = {status:0};
 
     $scope.scan = function(){
+
         $ionicPlatform.ready(function() {
             $cordovaBarcodeScanner
             .scan()
@@ -16,13 +18,12 @@ angular.module('starter.controllers', [])
                 "Format: " + result.format + "n" +
                 "Cancelled: " + result.cancelled;
 
-                /*burası vps e atılınca aktifleştirilecek*/
-                /*
-                $http.get("http://localhost:3000/api/payment/getByReferenceId?reference="+ result.text +" ").then(function(response) {
-                  alert('');
-                });*/
 
-                
+                $http.get("http://192.168.137.120:3000/api/payment/getByReferenceId?reference="+ result.text +" ").then(function(response) {
+                    $scope.payVar = response.data[0];
+                    $scope.payVar.status = 1;
+                });
+
 
             }, function(error) {
                 // An error occurred
@@ -32,20 +33,28 @@ angular.module('starter.controllers', [])
     };
 
     
+    $scope.acceptPay = function(){
+      // http://localhost:3000/api/payment/acceptPay/581d9e3efe0389c8186a687e/581d9e1cfe0389c8186a687d/40
+
+      $http.put("http://192.168.137.120:3000/api/payment/acceptPay/"+$rootScope.user._id+"/"+$scope.payVar.businessId+"/"+$scope.payVar.price+"").then(function(response) {
+          alert('ödeme tamamlandı')
+      });
+    }
+
     
     /*Read qr code*/
 
-    $rootScope.user = {
+    /*$rootScope.user = {
       "_id": "581d9e1cfe0389c8186a687d",
       "username": "ingbank",
       "name": "ING BANK",
       "surname": "",
       "pw": "123",
       "credit": 100,
-      "type": true
-    };
+      "type": false
+    };*/
 
-    var socket = io.connect('http://192.168.43.51:1000');
+    var socket = io.connect('http://192.168.137.120:1000');
 
      // socket.emit('send', { message: 'Mehmet' });
 
@@ -61,7 +70,7 @@ angular.module('starter.controllers', [])
     $scope.addPay = function(){
       var pay_reference = guid();
 
-      $http.post("http://192.168.43.51:3000/api/payment/add?referance="+pay_reference+"&businessId="+$rootScope.user._id+"&price="+$scope.payData.tutar+" ").then(function(response) {
+      $http.post("http://192.168.137.120:3000/api/payment/add?referance="+pay_reference+"&businessId="+$rootScope.user._id+"&price="+$scope.payData.tutar+" ").then(function(response) {
         socket.emit('message', { reference: pay_reference });
       });
     };
@@ -104,7 +113,7 @@ angular.module('starter.controllers', [])
       var username = $scope.user.username;
       var pw = $scope.user.pw;
 
-      $http.get("http://192.168.43.51:3000/api/user/login?username="+username+"&pw="+ pw +" ").then(function(response) {
+      $http.get("http://192.168.137.120:3000/api/user/login?username="+username+"&pw="+ pw +" ").then(function(response) {
         if (response.data[0]) {
           $scope.loginErr = false;
           $rootScope.user= response.data[0];
