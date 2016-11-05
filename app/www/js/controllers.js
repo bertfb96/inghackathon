@@ -45,7 +45,7 @@ angular.module('starter.controllers', [])
       "type": true
     };
 
-    var socket = io.connect('http://188.166.19.62:3000');
+    var socket = io.connect('http://188.166.19.62:1000');
 
      // socket.emit('send', { message: 'Mehmet' });
 
