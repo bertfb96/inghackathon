@@ -21,6 +21,7 @@ mongoose.connect('mongodb://localhost/inghackathon');
 
 //Socket.io
 var io = require('socket.io').listen(app.listen(1000));
+io.set( 'origins', '*localhost:8100' );
 
 io.sockets.on('connection', function (socket) {
     socket.on('message', function (data) {
