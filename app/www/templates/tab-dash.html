@@ -1,0 +1,38 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <h2>Pay List</h2>
+
+    <ion-list>
+        <ion-item ng-repeat="item in payList" 
+                  item="item"
+                  href="#/item/{{item.name}}" class="item-remove-animate">
+           {{ item.name }}
+          <ion-delete-button class="ion-minus-circled" 
+                             ng-click="onItemDelete(item)">
+          </ion-delete-button>
+          <ion-option-button class="button-assertive"
+                             ng-click="edit(item)">
+            Edit
+          </ion-option-button>
+          <ion-option-button class="button-calm"
+                             ng-click="share(item)">
+            Share
+          </ion-option-button>
+          <ion-reorder-button class="ion-navicon" on-reorder="moveItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+        </ion-item>
+
+      </ion-list>
+
+      <label class="item item-input" style="margin-top:300px">
+        <span class="input-label">Message</span>
+        <input type="text" ng-model="payData.text">
+      </label>
+
+      <button class="button button-block button-positive" ng-click="addPay()">
+        Add
+      </button>
+
+
+
+  </ion-content>
+</ion-view>
