@@ -1,7 +1,24 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
-    <h2>Pay List</h2>
 
+    <!-- 
+    <div ng-if="user">
+      username: {{user.username}}
+    </div>
+  -->
+
+
+    <label class="item item-input">
+      <span class="input-label">Tutar</span>
+      <input type="tel" ng-model="payData.tutar">
+    </label>
+
+    <button class="button button-block button-positive" ng-click="addPay()">
+      Tutarı Belirle
+    </button>
+  
+
+    <!-- 
     <ion-list>
         <ion-item ng-repeat="item in payList" 
                   item="item"
@@ -32,6 +49,8 @@
         Add
       </button>
 
+    -->
+  
 
 
   </ion-content>

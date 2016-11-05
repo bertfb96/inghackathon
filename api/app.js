@@ -16,8 +16,6 @@ var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost/inghackathon');
 /* MongoDB connection */
 
-/* DB Models */
-var Payment     = require('./models/payment');
 
 
 //Socket.io
@@ -44,7 +42,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/payment', payment);
-app.use('/api/users', users);
+app.use('/api/user', users);
 
 
 
