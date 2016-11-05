@@ -6,6 +6,11 @@
       username: {{user.username}}
     </div>
   -->
+
+    <!--<audio controls id="tutar" autoplay>
+      <source src="http://jqueryegitimseti.com/sound/tutar.ogg" type="audio/ogg">
+      Your browser does not support the audio tag.
+    </audio> -->
     
     <div class="businessArea" ng-if="user.type == 1">
       <div class="align-center margin-bottom-10">
@@ -50,7 +55,7 @@
               <div class="margin-top-10"></div>
               <h3>Ödemeyi Onaylıyor musunuz?</h3>
               <div class="align-center margin-top-10">
-                <button class="button button-assertive" style="width:45%">
+                <button class="button button-assertive" style="width:45%" ng-click="declinePay()">
                     Reddet
                   </button>
                   <button class="button button-balanced" style="width:45%" ng-click="acceptPay()">

@@ -2,6 +2,11 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $http, $rootScope, $cordovaBarcodeScanner, $ionicPlatform) {
 
+    var tutarOnay = new Audio('http://jqueryegitimseti.com/sound/tutar.ogg');
+    var tamamlandi = new Audio('http://jqueryegitimseti.com/sound/tamamlandi.ogg');
+    
+
+
     /*Read qr code*/
     $scope.qrData = {};
     $scope.payVar = {status:0};
@@ -22,6 +27,7 @@ angular.module('starter.controllers', [])
                 $http.get("http://192.168.137.120:3000/api/payment/getByReferenceId?reference="+ result.text +" ").then(function(response) {
                     $scope.payVar = response.data[0];
                     $scope.payVar.status = 1;
+                    tutarOnay.play();
                 });
 
 
@@ -37,8 +43,15 @@ angular.module('starter.controllers', [])
       // http://localhost:3000/api/payment/acceptPay/581d9e3efe0389c8186a687e/581d9e1cfe0389c8186a687d/40
 
       $http.put("http://192.168.137.120:3000/api/payment/acceptPay/"+$rootScope.user._id+"/"+$scope.payVar.businessId+"/"+$scope.payVar.price+"").then(function(response) {
-          alert('ödeme tamamlandı')
+          tamamlandi.play();
+          $scope.payVar.status = 0;
+          $scope.$apply();
       });
+    }
+
+    $scope.declinePay = function(){
+        $scope.payVar.status = 0;
+        $scope.$apply();
     }
 
     
