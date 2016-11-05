@@ -11,12 +11,6 @@ var users = require('./routes/users');
 
 var app = express();
 
-app.all('/', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
- });
-
 
 /* MongoDB connection */
 var mongoose   = require('mongoose');
@@ -27,7 +21,7 @@ mongoose.connect('mongodb://localhost/inghackathon');
 
 //Socket.io
 var io = require('socket.io').listen(app.listen(1000));
-
+io.set('origins', '*:*');
 
 io.sockets.on('connection', function (socket) {
     socket.on('message', function (data) {
