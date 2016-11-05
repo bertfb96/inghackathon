@@ -42,10 +42,10 @@ angular.module('starter.controllers', [])
       "surname": "",
       "pw": "123",
       "credit": 100,
-      "type": false
+      "type": true
     };
 
-    var socket = io.connect('http://localhost:2020');
+    var socket = io.connect('http://188.166.19.62:2020');
 
      // socket.emit('send', { message: 'Mehmet' });
 
@@ -61,7 +61,7 @@ angular.module('starter.controllers', [])
     $scope.addPay = function(){
       var pay_reference = guid();
 
-      $http.post("http://localhost:3000/api/payment/add?referance="+pay_reference+"&businessId="+$rootScope.user._id+"&price="+$scope.payData.tutar+" ").then(function(response) {
+      $http.post("http://188.166.19.62:3000/api/payment/add?referance="+pay_reference+"&businessId="+$rootScope.user._id+"&price="+$scope.payData.tutar+" ").then(function(response) {
         socket.emit('message', { reference: pay_reference });
       });
     };
@@ -104,7 +104,7 @@ angular.module('starter.controllers', [])
       var username = $scope.user.username;
       var pw = $scope.user.pw;
 
-      $http.get("http://localhost:3000/api/user/login?username="+username+"&pw="+ pw +" ").then(function(response) {
+      $http.get("http://188.166.19.62:3000/api/user/login?username="+username+"&pw="+ pw +" ").then(function(response) {
         if (response.data[0]) {
           $scope.loginErr = false;
           $rootScope.user= response.data[0];
