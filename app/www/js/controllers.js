@@ -3,32 +3,46 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope, $http, $rootScope) {
 
     $rootScope.user = {
-    "_id": "581d9e1cfe0389c8186a687d",
-    "username": "ingbank",
-    "name": "ING BANK",
-    "surname": "",
-    "pw": "123",
-    "credit": 100,
-    "type": true
-  };
+      "_id": "581d9e1cfe0389c8186a687d",
+      "username": "ingbank",
+      "name": "ING BANK",
+      "surname": "",
+      "pw": "123",
+      "credit": 100,
+      "type": true
+    };
 
     var socket = io.connect('http://localhost:2020');
 
      // socket.emit('send', { message: 'Mehmet' });
 
+     /*
     $http.get("http://localhost:3000/api/payment/getAll").then(function(response) {
         $scope.payList = response.data;
-    });
+    });*/
 
 
     $scope.payData = {};
-    $scope.addPay = function(){
-      var payName = $scope.payData.text;
+    $scope.payData.tutar = ' ';
 
-      $http.post("http://localhost:3000/api/payment/add?name="+payName+" ").then(function(response) {
-        $scope.payList.push({'name': payName});
+    $scope.addPay = function(){
+      var pay_referance = guid();
+
+      $http.post("http://localhost:3000/api/payment/add?referance="+pay_referance+"&businessId="+$rootScope.user._id+"&price="+$scope.payData.tutar+" ").then(function(response) {
+        //$scope.payList.push({'name': payName});
       });
     };
+
+
+    function guid() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+    }
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {

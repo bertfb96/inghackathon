@@ -64,7 +64,9 @@ router.delete('/delete/:pay_id', cors(corsOptions), function(req, res) {
 
 router.post('/add', cors(corsOptions), function(req, res) {
     var pay = new Payment();      
-    pay.name = req.query.name;  
+    pay.referance = req.query.referance;
+    pay.businessId = req.query.businessId;  
+    pay.price      = req.query.price;
 
     pay.save(function(err) {
         if (err)

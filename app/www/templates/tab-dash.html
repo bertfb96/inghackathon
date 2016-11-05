@@ -6,17 +6,26 @@
       username: {{user.username}}
     </div>
   -->
+    
+    <div class="businessArea" ng-if="user.type == 1">
+      <div class="align-center margin-bottom-10">
+        <qr text="payData.tutar"></qr>
+      </div>
+
+      <label class="item item-input">
+        <span class="input-label">Tutar</span>
+        <input type="tel" ng-model="payData.tutar">
+      </label>
+
+      <button class="button button-block button-positive" ng-click="addPay()">
+        Tutarı Belirle
+      </button>
+    </div>
 
 
-    <label class="item item-input">
-      <span class="input-label">Tutar</span>
-      <input type="tel" ng-model="payData.tutar">
-    </label>
-
-    <button class="button button-block button-positive" ng-click="addPay()">
-      Tutarı Belirle
-    </button>
-  
+    <div class="businessArea" ng-if="user.type == 0">
+      
+    </div>
 
     <!-- 
     <ion-list>
