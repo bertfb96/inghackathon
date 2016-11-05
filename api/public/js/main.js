@@ -2,7 +2,7 @@ var app = angular.module('ingApp', ['ja.qr']);
 
 
 app.controller('HomeCtrl', function($scope, $http){
-	var socket = io.connect('http://188.166.19.62:2020');
+	var socket = io.connect('http://localhost');
 
 	$scope.qrString = '';
 	
