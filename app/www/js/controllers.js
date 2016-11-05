@@ -1,6 +1,39 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $http, $rootScope) {
+.controller('DashCtrl', function($scope, $http, $rootScope, $cordovaBarcodeScanner, $ionicPlatform) {
+
+    /*Read qr code*/
+    $scope.qrData = {};
+
+    $scope.scan = function(){
+        $ionicPlatform.ready(function() {
+            $cordovaBarcodeScanner
+            .scan()
+            .then(function(result) {
+                // Success! Barcode data is here
+                $scope.qrData.scanResults = "We got a barcoden" +
+                "Result: " + result.text + "n" +
+                "Format: " + result.format + "n" +
+                "Cancelled: " + result.cancelled;
+
+                /*burası vps e atılınca aktifleştirilecek*/
+                /*
+                $http.get("http://localhost:3000/api/payment/getByReferenceId?reference="+ result.text +" ").then(function(response) {
+                  alert('');
+                });*/
+
+                
+
+            }, function(error) {
+                // An error occurred
+                $scope.qrData.scanResults = 'Error: ' + error;
+            });
+        });
+    };
+
+    
+    
+    /*Read qr code*/
 
     $rootScope.user = {
       "_id": "581d9e1cfe0389c8186a687d",
@@ -9,7 +42,7 @@ angular.module('starter.controllers', [])
       "surname": "",
       "pw": "123",
       "credit": 100,
-      "type": true
+      "type": false
     };
 
     var socket = io.connect('http://localhost:2020');
@@ -26,10 +59,10 @@ angular.module('starter.controllers', [])
     $scope.payData.tutar = ' ';
 
     $scope.addPay = function(){
-      var pay_referance = guid();
+      var pay_reference = guid();
 
-      $http.post("http://localhost:3000/api/payment/add?referance="+pay_referance+"&businessId="+$rootScope.user._id+"&price="+$scope.payData.tutar+" ").then(function(response) {
-        //$scope.payList.push({'name': payName});
+      $http.post("http://localhost:3000/api/payment/add?referance="+pay_reference+"&businessId="+$rootScope.user._id+"&price="+$scope.payData.tutar+" ").then(function(response) {
+        socket.emit('message', { reference: pay_reference });
       });
     };
 

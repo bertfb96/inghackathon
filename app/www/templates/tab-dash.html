@@ -24,7 +24,25 @@
 
 
     <div class="businessArea" ng-if="user.type == 0">
-      
+      Customer
+
+      <div class="card">
+            <div class="item">
+                <button class="button button-block button-positive" ng-click="scan()">
+                    <i class="icon ion-qr-scanner"></i>
+                    Scan Now
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="item item-divider">
+                Scan Results
+            </div>
+            <div class="item item-text-wrap">
+                {{qrData}}
+            </div>
+        </div>
     </div>
 
     <!-- 
