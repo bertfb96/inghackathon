@@ -26,6 +26,15 @@ router.get('/getByReferenceId', cors(corsOptions), function(req,res){
     });
 });
 
+router.get('/getPaymentList', cors(corsOptions), function(req,res){
+    Payment.find({businessId: req.query.userId}, function(err, pay) {
+        if (err)
+            res.send(err);
+
+        res.json(pay);
+    });
+});
+
 router.get('/getAll', cors(corsOptions) , function(req,res){
 	Payment.find(function(err, pays) {
         if (err)
@@ -35,9 +44,7 @@ router.get('/getAll', cors(corsOptions) , function(req,res){
     });
 });
 
-
-router.put('/acceptPay/:customerId/:businessId/:price', cors(corsOptions), function(req,res){
-
+router.put('/acceptPay/:customerId/:businessId/:price/:reference', cors(corsOptions), function(req,res){
     // for customer
 	User.findById(req.params.customerId, function(err, user) {
         if (err)
@@ -60,15 +67,19 @@ router.put('/acceptPay/:customerId/:businessId/:price', cors(corsOptions), funct
                     if (err)
                         res.send(err);
 
-                    res.json({ message: 'Pay updated!' });
+                    //status update
+                    Payment.findOneAndUpdate({reference: req.params.reference}, {status: 1}, function(err, user) {
+                        if (err)
+                            res.send(err);
+
+                        res.json({ message: 'Pay updated!' });
+                    });
+
                 });
             });
 
         });
     });
-
-     
-
 });
 
 

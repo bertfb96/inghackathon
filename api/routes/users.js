@@ -25,4 +25,13 @@ router.get('/login', cors(corsOptions), function(req,res){
     });
 });
 
+router.get('/getById', cors(corsOptions), function(req,res){
+    User.findById(req.query._id, function(err, user) {
+        if (err)
+            res.send(err);
+
+        res.json(user);
+    });
+});
+
 module.exports = router;

@@ -25,12 +25,23 @@
       <button class="button button-block button-positive" ng-click="addPay()">
         Tutarı Belirle
       </button>
-
       
+       
+        
+        <div class="card">
+            <div class="item item-divider">
+                Gelen Ödemeler
+            </div>
+             <ion-list>
+              <ion-item ng-repeat="pay in payList | reverse">{{pay.price}}</ion-item>
+            </ion-list>
+        </div>
+
+
     </div>
 
 
-    <div class="businessArea" ng-if="user.type == 0">
+    <div class="customerArea" ng-if="user.type == 0">
       <h4>{{user.name}} {{user.surname}}</h4> 
       Kredi: <b>{{user.credit}}</b>TL
 
@@ -69,8 +80,6 @@
               <h3 style="color:red" ng-if="!payVar.yeterli">Bakiye yetersiz!</h3>
             </div>
           -->
-
-
         </div>
     </div>
 

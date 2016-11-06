@@ -1,6 +1,28 @@
 angular.module('starter.controllers', [])
 
+.filter('reverse', function() {
+  return function(items) {
+    return items.slice().reverse();
+  };
+})
+
 .controller('DashCtrl', function($scope, $http, $rootScope, $cordovaBarcodeScanner, $ionicPlatform) {
+
+    var socket = io.connect('http://192.168.137.120:1000');
+
+    socket.on('accepted_pay', function(data){
+      console.log(data.d.data);
+      $rootScope.payList.push(data.d.data);
+      console.log($rootScope.payList);
+      $scope.$apply();
+    });
+
+     // socket.emit('send', { message: 'Mehmet' });
+
+     /*
+    $http.get("http://localhost:3000/api/payment/getAll").then(function(response) {
+        $scope.payList = response.data;
+    });*/
 
     var tutarOnay = new Audio('http://jqueryegitimseti.com/sound/tutar.ogg');
     var tamamlandi = new Audio('http://jqueryegitimseti.com/sound/tamamlandi.ogg');
@@ -56,6 +78,13 @@ angular.module('starter.controllers', [])
              $rootScope.user.credit = response.data.credit;
           });
 
+
+          $http.get("http://192.168.137.120:3000/api/payment/getByReferenceId?reference="+ $scope.payVar.reference +" ").then(function(response){
+            console.log(response.data[0]);
+            socket.emit('acceptPay', { data: response.data[0] });
+          });
+          
+
           $scope.$apply();
           $rootScope.$apply();
       });
@@ -79,14 +108,7 @@ angular.module('starter.controllers', [])
       "type": false
     };*/
 
-    var socket = io.connect('http://192.168.137.120:1000');
-
-     // socket.emit('send', { message: 'Mehmet' });
-
-     /*
-    $http.get("http://localhost:3000/api/payment/getAll").then(function(response) {
-        $scope.payList = response.data;
-    });*/
+    
 
 
     $scope.payData = {};
@@ -143,7 +165,12 @@ angular.module('starter.controllers', [])
           $scope.loginErr = false;
           $rootScope.user= response.data[0];
 
-          console.log($rootScope);
+
+          $rootScope.payList = {};
+          $http.get("http://192.168.137.120:3000/api/payment/getPaymentList?userId="+ $rootScope.user._id +" ").then(function(response){
+            $rootScope.payList = response.data;
+            console.log($scope.payList);
+          });
 
           $state.go('tab.dash');
 

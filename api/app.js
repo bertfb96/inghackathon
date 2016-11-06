@@ -42,7 +42,11 @@ io.set('origins', '*:*');
 
 io.sockets.on('connection', function (socket) {
     socket.on('message', function (data) {
-      socket.broadcast.emit('qr-created',{ d: data.reference })
+      socket.broadcast.emit('qr-created',{ d: data.reference });
+    });
+
+    socket.on('acceptPay', function(data){
+      socket.broadcast.emit('accepted_pay',{ d: data });
     });
 });
 
