@@ -1,16 +1,63 @@
 <ion-view view-title="Chats">
   <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
-        <img ng-src="{{chat.face}}">
-        <h2>{{chat.name}}</h2>
-        <p>{{chat.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
+      
+      <div ng-if="!showAtmInterface">
+        <div class="card">
+            <div class="item">
+                <button class="button button-block button-positive" ng-click="scanAtm()">
+                    <i class="icon ion-qr-scanner"></i>
+                    Scan Now
+                </button>
+            </div>
+        </div>
 
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
-      </ion-item>
-    </ion-list>
+        <div class="card" style="display:none">
+          <div class="item item-divider">
+              Scan Results
+          </div>
+          <div>
+            {{atmQrData}}
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="showAtmInterface">
+        <div class="card">
+            <div class="list">
+
+              <a class="item item-icon-left" href="#">
+                <i class="icon ion-cash"></i>
+                Para Çek
+              </a>
+
+             <a class="item item-icon-left" href="#">
+                <i class="icon ion-paper-airplane"></i>
+                Para Gönder
+              </a>
+
+              <a class="item item-icon-left" href="#">
+                <i class="icon ion-card"></i>
+                Ödemeler
+              </a>
+
+              <a class="item item-icon-left" href="#">
+                <i class="icon ion-happy-outline"></i>
+                Başvurular
+              </a>
+
+            </div>
+
+            <div class="item item-divider">Activities</div>
+
+            <a class="item item-icon-left" href="#" ng-click="logOut()">
+                <i class="icon ion-log-out"></i>
+                Çıkış Yap
+              </a>
+        </div>
+        <div>
+          
+        </div>
+      </div>
+
   </ion-content>
 </ion-view>

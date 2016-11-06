@@ -132,7 +132,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, $cordovaBarcodeScanner, $ionicPlatform) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -140,11 +140,36 @@ angular.module('starter.controllers', [])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+  
+    $scope.atmQrData = {};
+    $scope.scanAtm = function(){
+        $scope.showAtmInterface = false;
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+        $ionicPlatform.ready(function() {
+            $cordovaBarcodeScanner
+            .scan()
+            .then(function(result) {
+                // Success! Barcode data is here
+                $scope.atmQrData.scanResults = "We got a barcoden" +
+                "Result: " + result.text + "n" +
+                "Format: " + result.format + "n" +
+                "Cancelled: " + result.cancelled;
+
+                if (!result.cancelled) {
+                  $scope.showAtmInterface = true;
+                }
+
+            }, function(error) {
+                // An error occurred
+                $scope.qrData.scanResults = 'Error: ' + error;
+            });
+        });
+    };
+
+    $scope.logOut = function(){
+      $scope.showAtmInterface = false;
+    };
+
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
