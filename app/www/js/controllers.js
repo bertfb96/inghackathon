@@ -11,9 +11,7 @@ angular.module('starter.controllers', [])
     var socket = io.connect('http://192.168.137.120:1000');
 
     socket.on('accepted_pay', function(data){
-      console.log(data.d.data);
       $rootScope.payList.push(data.d.data);
-      console.log($rootScope.payList);
       $scope.$apply();
     });
 
