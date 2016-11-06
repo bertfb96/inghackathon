@@ -25,6 +25,12 @@ angular.module('starter.controllers', [])
 
 
                 $http.get("http://192.168.137.120:3000/api/payment/getByReferenceId?reference="+ result.text +" ").then(function(response) {
+                    if (response.data[0].status) {
+                      $scope.payVar.status = 0;
+                      alert('Bu ödeme zaten yapılmış.');
+                      return false;
+                    };
+
                     $scope.payVar = response.data[0];
                     $scope.payVar.status = 1;
                     tutarOnay.play();
@@ -38,14 +44,20 @@ angular.module('starter.controllers', [])
         });
     };
 
-    
     $scope.acceptPay = function(){
       // http://localhost:3000/api/payment/acceptPay/581d9e3efe0389c8186a687e/581d9e1cfe0389c8186a687d/40
 
-      $http.put("http://192.168.137.120:3000/api/payment/acceptPay/"+$rootScope.user._id+"/"+$scope.payVar.businessId+"/"+$scope.payVar.price+"").then(function(response) {
+      $http.put("http://192.168.137.120:3000/api/payment/acceptPay/"+$rootScope.user._id+"/"+$scope.payVar.businessId+"/"+$scope.payVar.price+"/"+ $scope.payVar.reference +" ").then(function(response) {
+          tutarOnay.pause();
           tamamlandi.play();
           $scope.payVar.status = 0;
+
+          $http.get("http://192.168.137.120:3000/api/user/getById?_id="+ $rootScope.user._id +"").then(function(response){
+             $rootScope.user.credit = response.data.credit;
+          });
+
           $scope.$apply();
+          $rootScope.$apply();
       });
     }
 
